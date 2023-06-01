@@ -12,7 +12,6 @@ public class Main {
         System.out.println("Hello world!");
         String file = utils.SearchFile(directory);
         String text = utils.readTextFromFile(file, directory);
-        //System.out.println(text);
 
         HuffmanTree huffmanTree = new HuffmanTree(null);
         System.out.println(huffmanTree.compress(text));
@@ -22,23 +21,6 @@ public class Main {
 
 
 class utils{
-
-    public static String readFile(String fileName){
-        StringBuilder text = new StringBuilder();
-        try{
-
-            BufferedReader reader = new BufferedReader(new FileReader(fileName));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                text.append(line).append("\n");
-            }
-            reader.close();
-        }  catch (IOException err){
-            System.out.println(err.getMessage());
-            System.exit(2);
-        }
-        return text.toString();
-    }
 
     private static Set<String> listFilesUsingJavaIO(String dir) {
         return Stream.of(Objects.requireNonNull(new File(dir).listFiles()))
@@ -86,8 +68,8 @@ class utils{
             return text.toString();
         } catch (IOException err){
             System.out.println(err.getMessage());
-            System.out.println("Try again.");
+            System.exit(2);
         }
-        return "nope";//readTextFromFile(file);
+        return "no llega aca la verdad";
     }
 }

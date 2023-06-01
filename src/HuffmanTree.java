@@ -4,7 +4,6 @@ import java.util.PriorityQueue;
 
 public class HuffmanTree {
     private HuffmanNode root;
-    private Map<Character,Integer[]> costMap;
 
     public HuffmanTree(HuffmanNode root) {
         this.root = root;
@@ -47,6 +46,7 @@ public class HuffmanTree {
             HuffmanNode right = pq.poll();
             //System.out.println(right.character + ": " + right.frequency);
 
+            assert right != null;
             HuffmanNode z = new HuffmanNode('\0', left.frequency + right.frequency);
             z.left = left;
             z.right = right;
@@ -86,34 +86,34 @@ public class HuffmanTree {
     public String compress(String text) {
 
         PriorityQueue<HuffmanNode> pq = getArrOfCharacters(text);
-        this.costMap = new HashMap<>();
+        Map<Character, Integer[]> costMap = new HashMap<>();
 
-        HuffmanNode huffmanRoot = root(pq, this.costMap);
+        HuffmanNode huffmanRoot = root(pq, costMap);
         this.root = huffmanRoot;
 
         Map<Character, String> codes = new HashMap<>();
         generateCodes(huffmanRoot, "", codes);
 
-        showCost(this.costMap,codes);
+        showCost(costMap,codes);
 
-        byte bit;
-        //System.out.println("\n--------------------------\nStart of binary conversion: ");
+        System.out.println("\n--------------------------\nStart of binary conversion: ");
         StringBuilder compressedText = new StringBuilder();
         for (char c : text.toCharArray()) {
-//            String codeNow = codes.get(c);
-//            if(codeNow.length()>8){
-//                String chop1 = codeNow.substring(0,8);
-//                String chop2 = codeNow.substring(9);
-//                while(chop2.length()>8){
-//
-//                }
-//            }
-            //bit = Byte.parseByte(codes.get(c));
-            //System.out.println("Char [" + c + "]: "+ codes.get(c) + " bit ");
-            //compressedText.append(codes.get(c));                    //TODO: Implement.
+            String codeNow = codes.get(c);
+            if(codeNow.length()>=8){
+                String chop1 = codeNow.substring(0,8);
+                String chop2 = codeNow.substring(9);
+                while(chop2.length()>8){
+
+                }
+            }
+            bit = Byte.parseByte(codes.get(c));
+            System.out.println("Char [" + c + "]: "+ codes.get(c) + " bit ");
+            compressedText.append(codes.get(c));                    //TODO: Implement.
         }
 
-        //System.out.println("\n--------------------------\nEnd of binary conversion: ");
-        return " ";//compressedText.toString();  //TODO: NOT IMPLEMENTED YET
+        System.out.println("\n--------------------------\nEnd of binary conversion: ");
+        return " ";
+        compressedText.toString();  //TODO: NOT IMPLEMENTED YET
     }
 }
