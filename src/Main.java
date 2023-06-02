@@ -15,8 +15,9 @@ public class Main {
             utils.writeToFile(huffmanTree.compress(text), "./files/ToDecode/" + file + "bin");
             System.out.println("File saved!");
         } catch( IOException e){
-            System.out.println("No se pudo guardar. Checar carpeta o nombre de archivo.");
+            System.out.println("Can't be saved. Check the directory or the name of the file.");
         }
+
     }
 }
 
@@ -52,7 +53,7 @@ class utils{
             System.out.println(err.getMessage() + ". Try again.");
         }
 
-        return SearchFile(dir);  //recursion para que se les acabe la memoria por chistosos
+        return SearchFile(dir);  //Evil recursive
     }
 
     public static String readTextFromFile(String file, String path){
@@ -71,7 +72,7 @@ class utils{
             System.out.println(err.getMessage());
             System.exit(2);
         }
-        return "no llega aca la verdad";
+        return " ";
     }
 
     public static void writeToFile(String Text, String fileName) throws IOException {

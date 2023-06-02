@@ -65,7 +65,7 @@ public class HuffmanTree {
     }
 
     public void showCost(Map<Character,Integer[]> costMap,Map<Character, String> codes){
-        System.out.println("\nFrecuency table of characters and binary value: ");
+        System.out.println("\nFrequency table of characters and binary value: ");
         for (Map.Entry<Character, String> entry : codes.entrySet()) {
             Integer[] valueActual = costMap.get(entry.getKey());
             String bin = entry.getValue();
@@ -106,14 +106,14 @@ public class HuffmanTree {
             base += codes.get(c);
         }
 
-        int veces = base.length()/8;
-        for(i = 0; i < veces; i+=8){
+        int timesTo = base.length()/8;
+        for(i = 0; i < timesTo; i+=8){
             nxtChar = (char)Integer.parseInt(base.substring(i,i+8),2);
             compressedText.append(nxtChar);
         }
-        int residuo = base.length() % 8;
-        if(residuo > 0){
-            for(int j = 0; j < 8 - residuo; j++)
+        int residue = base.length() % 8;
+        if(residue > 0){
+            for(int j = 0; j < 8 - residue; j++)
                 helper += '0';
             nxtChar = (char)Integer.parseInt(base.substring(i,i+8) + helper,2);
             compressedText.append(nxtChar);
