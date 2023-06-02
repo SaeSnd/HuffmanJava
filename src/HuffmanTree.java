@@ -98,22 +98,28 @@ public class HuffmanTree {
 
         System.out.println("\n--------------------------\nStart of binary conversion: ");
         StringBuilder compressedText = new StringBuilder();
-        for (char c : text.toCharArray()) {
-            String codeNow = codes.get(c);
-            if(codeNow.length()>=8){
-                String chop1 = codeNow.substring(0,8);
-                String chop2 = codeNow.substring(9);
-                while(chop2.length()>8){
-
-                }
-            }
-            bit = Byte.parseByte(codes.get(c));
-            System.out.println("Char [" + c + "]: "+ codes.get(c) + " bit ");
-            compressedText.append(codes.get(c));                    //TODO: Implement.
+        String base = "";
+        String helper = "";
+        char nxtChar; int i;
+        for (char c : text.toCharArray()){
+            if(codes.get(c) == null) continue;
+            base += codes.get(c);
         }
 
-        System.out.println("\n--------------------------\nEnd of binary conversion: ");
-        return " ";
-        compressedText.toString();  //TODO: NOT IMPLEMENTED YET
+        int veces = base.length()/8;
+        for(i = 0; i < veces; i+=8){
+            nxtChar = (char)Integer.parseInt(base.substring(i,i+8),2);
+            compressedText.append(nxtChar);
+        }
+        int residuo = base.length() % 8;
+        if(residuo > 0){
+            for(int j = 0; j < 8 - residuo; j++)
+                helper += '0';
+            nxtChar = (char)Integer.parseInt(base.substring(i,i+8) + helper,2);
+            compressedText.append(nxtChar);
+        }
+
+        System.out.println("\n--------------------------\nEnd of binary conversion. Saving file... ");
+        return compressedText.toString();
     }
 }

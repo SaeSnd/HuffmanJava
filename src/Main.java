@@ -1,21 +1,22 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
-        String directory = "./files/ToDecode";
+        String directory = "./files/ToEncode";
         System.out.println("Hello world!");
         String file = utils.SearchFile(directory);
         String text = utils.readTextFromFile(file, directory);
 
         HuffmanTree huffmanTree = new HuffmanTree(null);
-        System.out.println(huffmanTree.compress(text));
-
+        try{
+            utils.writeToFile(huffmanTree.compress(text), "./files/ToDecode/" + file + "bin");
+            System.out.println("File saved!");
+        } catch( IOException e){
+            System.out.println("No se pudo guardar. Checar carpeta o nombre de archivo.");
+        }
     }
 }
 
@@ -32,9 +33,9 @@ class utils{
     public static String SearchFile(String dir){
         Scanner readText = new Scanner(System.in);
         System.out.println("Select the file you need: ");
-        List<String> fileList = new ArrayList<String>();
+        List<String> fileList = new ArrayList<>();
         Set<String> files = listFilesUsingJavaIO(dir);
-        int e = 0 ,i = 0;
+        int e ,i = 0;
         for (String file : files) {
             fileList.add(i,file);
             System.out.println(i+1 + ". " + file);
@@ -71,5 +72,11 @@ class utils{
             System.exit(2);
         }
         return "no llega aca la verdad";
+    }
+
+    public static void writeToFile(String Text, String fileName) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
+        writer.write(Text);
+        writer.close();
     }
 }
