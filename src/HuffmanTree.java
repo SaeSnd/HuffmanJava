@@ -1,3 +1,6 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
@@ -26,7 +29,7 @@ public class HuffmanTree {
         Map<Character, Integer> frequencyMap = new HashMap<>();
 
         for (char c : text.toCharArray()) {
-            if(c == ' ') continue;
+            //if(c == ' ') continue;
             frequencyMap.put(c, frequencyMap.getOrDefault(c, 0) + 1);
         }
 
@@ -82,8 +85,18 @@ public class HuffmanTree {
         }
         System.out.println("0 = " + sum);
     }
+    public static void saveCodes(Map<Character, String> codes, String fileName, int size) throws IOException {
+        String dataPath = "./files/data";
+        BufferedWriter writer = new BufferedWriter(new FileWriter(dataPath + "/" + "dt-" + fileName));
 
-    public String compress(String text) {
+        String codesText = String.valueOf(size);
+        for (Map.Entry<Character, String> entry : codes.entrySet())
+            codesText += "\n" + entry.getKey() + entry.getValue();
+        writer.write(codesText);
+        writer.close();
+    }
+
+    public String compress(String text, String fileName) {
 
         PriorityQueue<HuffmanNode> pq = getArrOfCharacters(text);
         Map<Character, Integer[]> costMap = new HashMap<>();
@@ -96,6 +109,7 @@ public class HuffmanTree {
 
         showCost(costMap,codes);
 
+
         System.out.println("\n--------------------------\nStart of binary conversion: ");
         StringBuilder compressedText = new StringBuilder();
         String base = "";
@@ -105,21 +119,36 @@ public class HuffmanTree {
             if(codes.get(c) == null) continue;
             base += codes.get(c);
         }
+        //System.out.print(base);
+        //System.out.println();
 
         int timesTo = base.length()/8;
-        for(i = 0; i < timesTo; i+=8){
+        //System.out.println("\n\nTimes to conversion: " +timesTo);
+        for(i = 0; i < timesTo*8; i+=8){
+            //System.out.print(base.substring(i,i+8));
             nxtChar = (char)Integer.parseInt(base.substring(i,i+8),2);
+            //String newAgain = Integer.toBinaryString(nxtChar);
+            //for(int in = 0; in < 8-newAgain.length(); in++) System.out.print("0");
+            //System.out.print(Integer.toBinaryString(nxtChar));
             compressedText.append(nxtChar);
         }
         int residue = base.length() % 8;
+        //System.out.println("Residue: " +residue);
         if(residue > 0){
-            for(int j = 0; j < 8 - residue; j++)
-                helper += '0';
-            nxtChar = (char)Integer.parseInt(base.substring(i,i+8) + helper,2);
+            for(int j = 0; j < 8 - residue; j++){
+                helper += '1';
+            }
+            //System.out.println(base.substring(i,i+residue)+helper);
+            nxtChar = (char)Integer.parseInt(base.substring(i,i+residue) + helper,2);
             compressedText.append(nxtChar);
         }
 
         System.out.println("\n--------------------------\nEnd of binary conversion. Saving file... ");
+        try{
+            saveCodes(codes,fileName,base.length());
+        } catch(IOException err){
+            System.out.println("Couldn't save file. \n" + err.getMessage());
+        }
         return compressedText.toString();
     }
 }
