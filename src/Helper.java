@@ -1,7 +1,7 @@
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
+// HOLA ESTE ES UN COMENTARIO
 public class Helper {
     public static String Decompress(String text, String dataFile) throws IOException {
         String textCompressed = "", helper = "", numTxt = "", textDecompressed = "";
